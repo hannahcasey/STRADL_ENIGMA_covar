@@ -49,3 +49,6 @@ po/*~
 rsconnect/
 
 .DS_Store
+
+medication_meta.csv
+covar_meta.csv
