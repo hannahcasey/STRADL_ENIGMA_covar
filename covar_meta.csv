@@ -1,0 +1,63 @@
+﻿Var,filepath_source,description
+SubjID,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Demographics.csv,
+Dx,smb://cmvm.datastore.ed.ac.uk/igmm/GenScotDepression/data/genscot/phenotypes/SCID_QC_201113_GWASids.csv,"Cases = Single MDD OR Recurrent MDD
+Controls = No major disorder OR Bipolar Disorder"
+Age,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Demographics.csv,
+Sex,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Demographics.csv,
+Site#,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Demographics.csv,Derived from ID
+Recur,smb://cmvm.datastore.ed.ac.uk/igmm/GenScotDepression/data/genscot/phenotypes/SCID_QC_201113_GWASids.csv,
+AD,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Meds_Psych.csv,
+Rem,NA,
+AO,smb://cmvm.datastore.ed.ac.uk/igmm/GenScotDepression/data/genscot/phenotypes/SCID_QC_201113_GWASids.csv,
+Sev,smb://cmvm.datastore.ed.ac.uk/igmm/GenScotDepression/data/genscot/phenotypes/SCID_QC_201113_GWASids.csv,Sum of above threshold DSM-IV MDD criteria – only screened if current depression + anhedonia
+BDI,NA,
+HDRS,NA,
+Epi,smb://cmvm.datastore.ed.ac.uk/igmm/GenScotDepression/data/genscot/phenotypes/SCID_QC_201113_GWASids.csv,"Total number of major depressive episodes, including current. Code 99 is too numerous or indistinct to count"
+Adcur,NA,
+IQ,NA,
+IQ_method,NA,
+Education_Years,NA,
+Education_Category,smb://cmvm.datastore.ed.ac.uk/igmm/GenScotDepression/data/genscot/phenotypes/EducationV2V5merged.csv,
+Education_Method,smb://cmvm.datastore.ed.ac.uk/igmm/GenScotDepression/data/genscot/phenotypes/EducationV2V5merged.csv,Description of years category
+Race_Ethnicity,NA,NA but information in fhx_area.csv and cannot find coding reference
+SubjectSES,NA,
+SubjectSES_Scale,NA,
+ParentSES,NA,
+ParentSES_Scale,NA,
+Antidepressant_Use_Lifetime,NA,
+Lithium_Use_Current,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Meds_Psych.csv,"1 = `Meds_Psych_List` contains lithium
+0 = `Meds_Psych_List` does not contain lithium"
+Lithium_Use_Lifetime,NA,
+Typical_Antipsychotic_Use_Current,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Meds_Psych.csv,"1 = `Meds_Psych_List` contains typical antipsychotics
+0 = `Meds_Psych_List` does not contain typical antipsychotics"
+Typical_Antypsychotic_Use_Lifetime,NA,
+Atypical_Antipsychotic_Use_Current,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Meds_Psych.csv,"1 = `Meds_Psych_List` contains atypical antipsychotics
+0 = `Meds_Psych_List` does not contain atypical antipsychotics"
+Atypical_Antypsychotic_Use_Lifetime,NA,
+Antiepileptic_Use_Current,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Meds_Psych.csv,Meds_Anticonvulsant
+Antiepileptic_Use_Lifetime,NA,
+OtherMed_Use_Current,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Meds_Psych.csv,"1 = Medication in `Meds_Psych_List` that is not antidepressant, anticonvulsant or antipsychotic
+0 = No additional medication"
+OtherMed_Use_Lifetime,NA,
+Generalized_Anxiety_Disorder_Current,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Phenotypic/STRADL_Scores_HADS.csv,"1 = HADS.A > 7
+0 = HADS.A < 8"
+Generalized_Anxiety_Disorder_Lifetime,NA,
+Panic_Disorder_Current,NA,
+Panic_Disorder_Lifetime,NA,
+Social_Anxiety_Disorder_Current,NA,
+Social_Anxiety_Disorder_Lifetime,NA,
+OCD_Current,NA,
+OCD_Lifetime,NA,
+PTSD_Current,NA,
+PTSD_Lifetime,NA,
+Depression_With_Psychotic_Features_Current,NA,
+Depression_With_Psychotic_Features_Lifetime,NA,
+Other_Dx_Current,NA,
+Other_Dx_Lifetime,NA,
+Alcohol_Use_Disorder_Current,NA,
+Alcohol_Use_Disorder_Lifetime,NA,
+Smoking_Status_Current,NA,
+Smoking_Status_Lifetime,NA,
+Other_Substance_Use_Disorder_Current,NA,
+Other_Substance_Use_Disorder_Lifetime,NA,
+BMI,smb://cmvm.datastore.ed.ac.uk/cmvm/scs/groups/STRADL/ Collated/STRADL-Measures-Biological/STRADL_Biological_BMI.csv,
