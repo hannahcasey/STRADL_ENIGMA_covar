@@ -9,8 +9,6 @@ demographics <- read.csv("/Volumes/STRADL/Collated/STRADL-Measures-Phenotypic/ST
 psych_meds <- read.csv("/Volumes/STRADL/Collated/STRADL-Measures-Phenotypic/STRADL_Meds_Psych.csv")
 SCID <- read.csv("/Volumes/GenScotDepression/data/genscot/phenotypes/SCID_QC_201113_GWASids.csv")
 
-SCID_STRADL <- read.csv("/Volumes/STRADL/Collated/STRADL-Measures-Phenotypic/")
-
 bridge <- read.csv("/Volumes/STRADL/Collated/STRADL-GenScot-Linkage/STRADL_GenScot_ID_Linkage_July_2019.csv")
 
 SCID_joined <- SCID %>%
@@ -174,7 +172,6 @@ covars <- covars %>%
 
 
 write.csv(covars, "/Volumes/STRADL/Processing/ENIGMA_covars/STRADL_covars.csv")
-
 
 # Individual Symptom ----
 ### SubjID ----
