@@ -61,6 +61,7 @@ covars$Sev <- rowSums(covars[c("A1", "A2", "A3", "A6", "A9", "A12", "A13", "A16"
 ### Epi ----
 ## SCID_episodes = 99: too numerous to count
 covars$Epi <- covars$SCID_episodes
+covars$Epi[covars$SCID_Diagnosis == 3] <- NA
 
 ### Rem, BDI, HDRS, ADcur ----
 covars$Rem <- NA
@@ -175,7 +176,7 @@ covars <- covars %>%
 
 
 
-write.csv(covars, "/Volumes/STRADL/Processing/ENIGMA_covars/STRADL_covars.csv")
+write.csv(covars, "/Volumes/STRADL/Processing/ENIGMA_covars/Covariates.csv")
 
 # Individual Symptom ----
 ### SubjID ----
