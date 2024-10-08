@@ -8,7 +8,6 @@ library(readr)
 demographics <- read.csv("/Volumes/STRADL/Collated/STRADL-Measures-Phenotypic/STRADL_Demographics.csv")
 psych_meds <- read.csv("/Volumes/STRADL/Collated/STRADL-Measures-Phenotypic/STRADL_Meds_Psych.csv")
 SCID <- read.csv("/Volumes/GenScotDepression/data/genscot/phenotypes/SCID_QC_201113_GWASids.csv")
-
 bridge <- read.csv("/Volumes/STRADL/Collated/STRADL-GenScot-Linkage/STRADL_GenScot_ID_Linkage_July_2019.csv")
 
 SCID_joined <- SCID %>%
@@ -21,6 +20,8 @@ covars <- demographics %>% ## SubjID, Age, Sex, site (from ID)
   rename(SubjID = ID) 
 
 ### Dx ----
+## SCID at baseline GS (not imaging assessment)
+## SCID_Diagnosis: (0 - No major disorder, 1 - Single MDD, 2 - Recurrent MDD, 3 - Bipolar Disorder, NA - missing)
 covars$Dx <- NA
 covars$Dx[covars$SCID_Diagnosis == 0 | covars$SCID_Diagnosis == 3] <- 0
 covars$Dx[covars$SCID_Diagnosis == 1 | covars$SCID_Diagnosis == 2] <- 1
@@ -31,14 +32,16 @@ covars$Sex <- ifelse(covars$Sex == "M", 1,2)
 covars$Site <- ifelse(grepl("DU", covars$SubjID), "DU", "AB")
 
 ### Recur ----
-covars$Recur <- 0
-covars$Recur[covars$SCID_episodes == 1] <- 1
-covars$Recur[covars$Epi > 1] <- 2
+covars$Recur <- NA
+covars$Recur[covars$Dx == 0] <- 0
+covars$Recur[covars$SCID_Diagnosis == 1] <- 1
+covars$Recur[covars$SCID_Diagnosis == 2] <- 2
 
 ### AD ----
-covars$AD <- 0
-covars$AD[covars$Meds_Antidepressant == 1 & covars$MDD_Diagnosis == 1] <- 1
-covars$AD[covars$Meds_Antidepressant == 0 & covars$MDD_Diagnosis == 1] <- 2
+covars$AD <- NA
+covars$AD[covars$Meds_Antidepressant == 1 & covars$Dx == 1] <- 2 ## Antidepressant users
+covars$AD[covars$Meds_Antidepressant == 0 & covars$Dx == 1] <- 1 ## Antidepressant free MDD patients
+covars$AD[covars$Meds_Antidepressant == 0 & covars$Dx == 0] <- 0 ## HC
 
 ### AO ----
 covars$AO <- covars$SCID_AgeOnset
@@ -56,6 +59,7 @@ covars <- covars %>%
 covars$Sev <- rowSums(covars[c("A1", "A2", "A3", "A6", "A9", "A12", "A13", "A16", "A19")])
 
 ### Epi ----
+## SCID_episodes = 99: too numerous to count
 covars$Epi <- covars$SCID_episodes
 
 ### Rem, BDI, HDRS, ADcur ----
