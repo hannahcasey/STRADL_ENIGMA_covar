@@ -23,7 +23,7 @@ covars <- demographics %>% ## SubjID, Age, Sex, site (from ID)
 ## SCID at baseline GS (not imaging assessment)
 ## SCID_Diagnosis: (0 - No major disorder, 1 - Single MDD, 2 - Recurrent MDD, 3 - Bipolar Disorder, NA - missing)
 covars$Dx <- NA
-covars$Dx[covars$SCID_Diagnosis == 0 | covars$SCID_Diagnosis == 3] <- 0
+covars$Dx[covars$SCID_Diagnosis == 0] <- 0
 covars$Dx[covars$SCID_Diagnosis == 1 | covars$SCID_Diagnosis == 2] <- 1
 
 ### Age, Sex, Site ----
@@ -45,6 +45,7 @@ covars$AD[covars$Meds_Antidepressant == 0 & covars$Dx == 0] <- 0 ## HC
 
 ### AO ----
 covars$AO <- covars$SCID_AgeOnset
+covars$AO[covars$SCID_Diagnosis == 3] <- NA
 
 ### Sev ----
 ## DSM-IV MDD criteria: A1-3, A6, A9, A12, A13, A16, A19
@@ -176,7 +177,7 @@ covars <- covars %>%
 
 
 
-write.csv(covars, "/Volumes/STRADL/Processing/ENIGMA_covars/Covariates.csv")
+write.csv(covars, "/Volumes/STRADL/Processing/ENIGMA_covars/Covariates.csv", row.names = F)
 
 # Individual Symptom ----
 ### SubjID ----
@@ -328,13 +329,80 @@ individual_symptoms <- left_join(individual_symptoms, CTQ, by = c("SubjID" = "ID
 
 individual_symptoms$CTQ_Total <- rowSums(individual_symptoms[,names(individual_symptoms) %in% paste0("CTQ_", 1:28)])
 
-individual_symptoms$CTQ_emotional_abuse <- individual_symptoms$TotalEA
-individual_symptoms$CTQ_physical_abuse <- individual_symptoms$TotalPA
-individual_symptoms$CTQ_sexual_abuse <- individual_symptoms$TotalSA
-individual_symptoms$CTQ_emotional_neglect <- individual_symptoms$TotalEN
-individual_symptoms$CTQ_physical_neglect <- individual_symptoms$TotalPN
-individual_symptoms$CTQ_minimization_denial <- individual_symptoms$TotalDenial
+## All items with an asterisk (*) must be reverse coded before summing
 
+## Emotional abuse
+## CTQ: 3. People in my family called me things like “stupid,” “lazy,” or “ugly”
+## CTQ: 8. I thought that my parents wished I had never been born
+## CTQ: 14. People in my family said hurtful or insulting things to me
+## CTQ: 18. I felt that someone in my family hated me
+## CTQ: 25. I believe that I was emotionally abused
+individual_symptoms$CTQ_emotional_abuse <- rowSums(individual_symptoms[,
+                                                                       names(individual_symptoms) %in% c("CTQ_3",
+                                                                                                         "CTQ_8",
+                                                                                                         "CTQ_14",
+                                                                                                         "CTQ_18",
+                                                                                                         "CTQ_25")])
+
+## Physical abuse
+## CTQ: 9. I got hit so hard by someone in my family that I had to see a doctor or go to the hospital 
+## CTQ: 11. People in my family hit me so hard that it left me with bruises or marks 
+## CTQ: 12. I was punished with a belt, a board, a cord, or some other hard object 
+## CTQ: 15. I believe that I was physically abused
+## CTQ: 17. I got hit or beaten so badly that it was noticed by someone like a teacher, neighbour, or doctor 
+individual_symptoms$CTQ_physical_abuse <- rowSums(individual_symptoms[,
+                                                                       names(individual_symptoms) %in% c("CTQ_9",
+                                                                                                         "CTQ_11",
+                                                                                                         "CTQ_12",
+                                                                                                         "CTQ_15",
+                                                                                                         "CTQ_17")])
+## Sexual abuse
+## CTQ: 20. Someone tried to touch me in a sexual way or tried to make me touch them 
+## CTQ: 21. Someone threatened to hurt me or tell lies about me unless I did something sexual with them 
+## CTQ: 23. Someone tried to make me do sexual things or watch sexual things 
+## CTQ: 24. Someone molested me
+## CTQ: 27. I believe that I was sexually abused
+
+# Apply the reverse coding to each variable
+individual_symptoms$CTQ_sexual_abuse <- rowSums(individual_symptoms[,
+                                                                      names(individual_symptoms) %in% c("CTQ_20",
+                                                                                                        "CTQ_21",
+                                                                                                        "CTQ_23",
+                                                                                                        "CTQ_24",
+                                                                                                        "CTQ_27")])
+## Emotional neglect
+## CTQ: 5. There was someone in my family who helped me feel that I was important or special*
+## CTQ: 7. I felt loved*
+## CTQ: 13. People in my family looked out for each other*
+## CTQ: 19. People in my family felt close to each other*
+## CTQ: 28. My family was a source of strength and support*
+
+vars_to_reverse <- c("CTQ_5", "CTQ_7", "CTQ_13", "CTQ_19", "CTQ_28")
+individual_symptoms[vars_to_reverse] <- lapply(individual_symptoms[vars_to_reverse], function(x) 6 - x)
+individual_symptoms$CTQ_emotional_neglect <- rowSums(individual_symptoms[,
+                                                                    names(individual_symptoms) %in% vars_to_reverse])
+
+## Physical neglect
+## CTQ: 1. I didn’t have enough to eat
+## CTQ: 2. I knew that there was someone to take care of me and protect me *
+## CTQ: 4. My parents were too drunk or high to take care of the family
+## CTQ: 6. I had to wear dirty clothes
+## CTQ: 26. There was someone to take me to the doctor if I needed it *
+
+vars_to_reverse <- c("CTQ_2", "CTQ_26")
+individual_symptoms[vars_to_reverse] <- lapply(individual_symptoms[vars_to_reverse], function(x) 6 - x)
+individual_symptoms$CTQ_physical_neglect <- rowSums(individual_symptoms[,
+                                                                         names(individual_symptoms) %in% vars_to_reverse])
+
+## Minimization/Denial 
+## CTQ: 10. There was nothing I wanted to change about my family
+## CTQ: 16. I had the perfect childhood
+## CTQ: 22. I had the best family in the world
+
+individual_symptoms$CTQ_minimization_denial <- rowSums(individual_symptoms[,
+                                                                    names(individual_symptoms) %in% c("CTQ_10",
+                                                                                                      "CTQ_16",
+                                                                                                      "CTQ_22")])
 
 # Save individual symptoms ----
 individual_symptoms <- individual_symptoms %>% 
@@ -347,7 +415,7 @@ individual_symptoms <- individual_symptoms %>%
          CTQ_Total, CTQ_emotional_abuse, CTQ_physical_abuse, CTQ_sexual_abuse, CTQ_emotional_neglect, CTQ_physical_neglect, CTQ_minimization_denial)
 
 
-write.csv(individual_symptoms, "/Volumes/STRADL/Processing/ENIGMA_covars/STRADL_individual_symptoms.csv")
+write.csv(individual_symptoms, "/Volumes/STRADL/Processing/ENIGMA_covars/Individual_symptoms.csv", row.names = F)
 
 # Medication ----
 
@@ -509,5 +577,5 @@ medication <- medication %>%
          )
 
 
-write.csv(medication, "/Volumes/STRADL/Processing/ENIGMA_covars/STRADL_medication.csv")
+write.csv(medication, "/Volumes/STRADL/Processing/ENIGMA_covars/Medication.csv", row.names = F)
 
